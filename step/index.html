@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>23432</title>
+		<meta name="renderer" content="webkit">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<link href="./module/css/layui.css" rel="stylesheet">
+		<link href="./module/css/index.css" rel="stylesheet">
+		<link href="./module/css/step.css" rel="stylesheet">
+		<style>
+
+		</style>
+	</head>
+	<body>
+		<div class="layui-fluid">
+			<div class="layui-card">
+				<div class="layui-card-body" style="padding-top: 60px;">
+					<div class="layui-carousel" id="stepForm" lay-filter="stepForm" style="margin: 0 auto;">
+						<div carousel-item>
+							<div align="center">
+								<form class="layui-form" style="margin: 40px auto;max-width: 460px;padding-top: 40px;">
+									<div class="layui-form-item">
+
+										<label class="layui-form-label">文件展示：</label>
+										<div class="layui-input-block">
+											<input name="file" type="file" class="layui-btn layui-btn-primary" id="excel-file">
+										</div>
+									</div>
+									<div class="layui-form-item" style="margin-top: 50px;">
+										<div class="layui-input-block">
+											<button class="layui-btn" lay-submit lay-filter="formFile" type="button">
+												&emsp;下一步&emsp;
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div>
+								<form class="layui-form" style="margin: 40px auto;max-width: 460px;padding-top: 40px;">
+									<div class="layui-form-item" style="text-align: center;">
+										<label class="layui-form-label">选择sheet：</label>
+										<div class="layui-input-block" id="ChooseSheet">
+
+										</div>
+									</div>
+									<div class="layui-form-item" style="margin-top: 50px;text-align: center;">
+										<div class="layui-input-block">
+											<button type="button" class="layui-btn layui-btn-primary pre">上一步</button>
+											<button class="layui-btn" lay-submit lay-filter="formsub" type="button">
+												&emsp;下一步&emsp;
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div>
+								<form class="layui-form layui-form-pane" action="">
+									<div class="layui-form-item" pane="" style="margin-top: 60px;width: 41%;margin-left: 32%;padding-left: 40px;">
+										<label class="layui-form-label">模式</label>
+										<div class="layui-input-block">
+											<input type="radio" lay-filter="Pattern" name="Pattern" value="列表" title="列表" checked="">
+											<input type="radio" lay-filter="Pattern" name="Pattern" value="树" title="树">
+											<input type="radio" lay-filter="Pattern" name="Pattern" value="列转行" title="列转行">
+											<input type="radio" lay-filter="Pattern" name="Pattern" value="多表" title="多表">
+											<input type="radio" lay-filter="Pattern" name="Pattern" value="行转列" title="行转列">
+										</div>
+									</div>
+									<div class="layui-form-item" pane="" style="margin-top: 30px;width: 41%;margin-left: 32%;padding-left: 40px;">
+										<label id="peizhiLabel" class="layui-form-label">配置</label>
+										<div id="ConfigurationDiv">
+										<div  class="layui-input-block" id="Configuration">
+											</div>
+										</div>
+									</div>
+									<div class="layui-form-item" style="text-align: center;margin-top: 50px;">
+										<div class="layui-input-block">
+											<button type="button" class="layui-btn layui-btn-primary pre">上一步</button>
+											<button class="layui-btn" lay-submit lay-filter="formPattern" type="button">
+												&emsp;下一步&emsp;
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div>
+								<div style="margin-top: 30px;">
+									<div id="MaxTransfer">
+										<div id="LeftSelect">
+											<div id="LeftHead">
+												Excel字段
+											</div>
+											<form class="layui-form" action="">
+												<div id="Excel-Content">
+												</div>
+											</form>
+										</div>
+										<div id="centre" class="arrows-box">
+											<button id="btnRight" type="button">导入</button>
+											<button id="matching" type="button">配对</button>
+										</div>
+										<div id="RightSelect">
+											<div id="RightHead">
+												数据库字段
+											</div>
+											<form class="layui-form" action="">
+												<div id="SQL-Content">
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<div class="layui-form-item" style="text-align: center;margin-top: 30px;position: relative;left: 4%;">
+									<div class="layui-input-block" style="margin-left: 0px">
+										<button type="button" class="layui-btn layui-btn-primary pre">上一步</button>
+										<button class="layui-btn" lay-submit lay-filter="formImport">
+											&emsp;下一步&emsp;
+										</button>
+									</div>
+								</div>
+							</div>
+
+							<div>
+								<!-- 数据展示 -->
+								<div id="DateShow">
+									<table class="layui-hide" id="datashow" lay-filter="tableEvent"></table>
+								</div>
+
+								<div class="layui-form-item" style="margin-left: 5%;text-align: center;margin-top: 35px;">
+									<div class="layui-input-block">
+										<button type="button" class="layui-btn layui-btn-primary pre">上一步</button>
+										<button class="layui-btn" lay-submit lay-filter="formStep">
+											&emsp;下一步&emsp;
+										</button>
+									</div>
+								</div>
+							</div>
+							<div>
+								<div style="text-align: center;margin-top: 90px;">
+									<i class="layui-icon layui-circle" style="color: white;font-size:30px;font-weight:bold;background: #52C41A;padding: 20px;line-height: 80px;">&#xe605;</i>
+									<div style="font-size: 24px;color: #333;font-weight: 500;margin-top: 30px;">
+										导入完成
+									</div>
+									<div style="font-size: 14px;color: #666;margin-top: 20px;">刷新即可查看数据</div>
+								</div>
+								<div style="text-align: center;margin: 50px;">
+									<button class="layui-btn next" style="border-radius: 5px">再导一次</button>
+									<!-- <button type="button" class="layui-btn layui-btn-primary pre">上一步</button> -->
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr>
+					<div style="color: #666;margin-top: 30px;margin-bottom: 40px;padding-left: 30px;">
+						<h3>说明</h3><br>
+						<h4>导入操作</h4>
+						<p>只能选择以xls或者xlsx的文件</p>
+						<br>
+						<h4>选择列</h4>
+						<p>需要Excel字段和SQL字段一对一配对</p>
+						<br>
+						<h4>匹配按钮</h4>
+						<p>需要Excel字段和SQL字段一致才能匹配</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="./module/jquery/jquery-3.2.1.min.js"></script>
+		<script type="text/javascript" src="./module/js/layui.js"></script>
+		<script type="text/javascript" src="./module/js/xlsx.core.min.js"></script><!-- 解析excel的js -->	
+		<script type="text/javascript" src="./module/js/index.js"></script>
+		<script type="text/javascript">
+			layui.use(['dropdown', 'layer', 'util', 'form', 'laydate', 'table'], function() {
+				var $ = layui.$,
+					layer = layui.layer,
+					util = layui.util;
+				form = layui.form,
+					laydate = layui.laydate,
+					table = layui.table,
+					dropdown = layui.dropdown
+			});
+			var ExcelData = []
+			var SQLData = [{ //数据库框的数据
+				"excel": "[未设置]",
+				"sql": "瓦罐汤",
+				"disabled": '0'
+			}, {
+				"excel": "[未设置]",
+				"sql": "姓名",
+				"disabled": '0'
+			}, {
+				"excel": "[未设置]",
+				"sql": "政治外貌",
+				"disabled": '0'
+			}, {
+				"excel": "[未设置]",
+				"sql": "岗位",
+				"disabled": '0'
+			}, {
+				"excel": "[未设置]",
+				"sql": "工资",
+				"disabled": '0'
+			}, {
+				"excel": "[未设置]",
+				"sql": "工号",
+				"disabled": '0'
+			}, {
+				"excel": "[未设置]",
+				"sql": "成绩",
+				"disabled": '0'
+			}, {
+				"excel": "[未设置]",
+				"sql": "民族",
+				"disabled": '0'
+			}]
+			var SQLData2 = [{ //数据库框的数据
+				"excel": "[未设置]",
+				"sql": "炸鸡腿",
+				"disabled": '0'
+			}, {
+				"excel": "[未设置]",
+				"sql": "小炸鸡",
+				"disabled": '0'
+			}]
+
+
+
+
+			var ExcelVal; //点击单选框的值
+			var SQLVal;
+			var Excelchecked;
+			var SQLchecked;
+			var cancelExcelVal = []; //存放要复原的值
+			var cancelSQLVal = [];
+			var res = []; //存放选择Sheet后的数据
+			var PatternVal = "列表" //存放导入模式单选中的值   默认是为列表
+			var dataShowData = []; //存展示的数据
+			var cols = []; //存放表头数据
+			var sheetChecked = [];
+			var LineFieldVal;
+			var FatherFieldVal;
+			var dropdown3Val; //多表数据
+			var dropdown4Val;
+			//原页面模板js
+			layui.config({
+				base: './module/js/'
+			}).use(['form', 'step'], function() {
+				var $ = layui.$,
+					form = layui.form,
+					step = layui.step;
+				step.render({
+					elem: '#stepForm',
+					filter: 'stepForm',
+					width: '100%', //设置容器宽度
+					stepWidth: '750px',
+					height: '500px',
+					stepItems: [{ //每页的标题
+						title: '选择文件'
+					}, {
+						title: '选择sheet'
+					}, {
+						title: '导入模式'
+					}, {
+						title: '选择列'
+					}, {
+						title: '数据展示'
+					}, {
+						title: '完成'
+					}]
+				});
+
+				form.on('submit(formStep)', function(data) {
+					step.next('#stepForm');
+					return false;
+				});
+				form.on('submit(formStep2)', function(data) {
+
+					step.next('#stepForm');
+
+					return false;
+				});
+
+				$('.pre').click(function() {
+					step.pre('#stepForm');
+				});
+
+				$('.next').click(function() {
+					step.next('#stepForm');
+				});
+
+				form.on('submit(formFile)', function(data) { //上传文件的下一步按钮 第一页下一步
+					var fileInput = $('#excel-file').get(0).files[0];
+					if (fileInput) {
+						step.next('#stepForm');
+						$("input:checkbox[name='labelType']:checked").each(function(i) { //把sheet默认值赋给sheetChecked
+							sheetChecked = $(this);
+						});
+						return false;
+					} else {
+						layer.open({
+							title: '提示',
+							content: '请选择文件！',
+						});
+					}
+				});
+				form.on('checkbox(sheet)', function(data) { //选择sheet点击事件
+					if ($("input[name='labelType']:checked").length == 1) {
+						sheetChecked = $(this);
+					} else if ($("input[name='labelType']:checked").length > 1) {
+						sheetChecked[0].checked = false
+						sheetChecked = $(this);
+					}
+					form.render("checkbox");
+
+				});
+				form.on('submit(formsub)', function(data) { //选sheet后下一步的按钮  第二页下一步
+					$("#SQL-Content").empty(); //清除div
+					$("#Excel-Content").empty();
+					var arr = new Array();
+					ExcelData.splice(0, ExcelData.length);
+					if ($("input:checkbox[name='labelType']:checked").length == 0) {
+						layer.open({
+							title: '提示',
+							content: '请选择Sheet！',
+						});
+						return;
+					}
+					//获取checkbox[name='labelType']的值，获取所有选中的复选框，并将其值放入数组中			
+					$("input:checkbox[name='labelType']:checked").each(function(i) { //获取sheet
+						arr[i] = $(this).val();
+						res = GetData(arr[i]);
+						if (res.length >= 1) {
+							Object.keys(res[0]).forEach(function(key, i, v) { //取出excel字段放进穿梭框
+								ExcelData.push({
+									"title": key,
+									"disabled": 0,
+								});
+							})
+						}
+					});
+					if (res.length < 1) {
+						layer.msg("此Sheet为空，请重新选择", {
+							time: 2500,
+							icon: 10
+						});
+						return;
+					}
+					RenderExcelSQL();
+					step.next('#stepForm'); //下一步下个div
+					return false;
+				});
+				if (PatternVal == "列表") { //默认值为列表给配置生成单选框
+					$('#Configuration').append(
+						'<input lay-skin="primary" id="NotCreate" lay-filter="NotCreate" type="checkbox" name=NotCreate value="不自动生成主键" title="不自动生成主键">'
+					);
+				}
+				form.on('radio(Pattern)', function(data) { //导入模式  模式单选框点击事件，获取点击的单选框的值
+					$("#Configuration").empty();
+					PatternVal = data.value; //点击值
+					$('#peizhiLabel').removeAttr("style", "line-height");
+					if (PatternVal == "列表") {
+						$('#Configuration').append(
+							'<input lay-skin="primary" id="NotCreate" lay-filter="NotCreate" type="checkbox" name=NotCreate value="不自动生成主键" title="不自动生成主键">'
+						);
+					} else if (PatternVal == "树") {
+						$("#peizhiLabel").css("line-height", "55px");
+						$('#Configuration').append(
+							'<div "><label  style="height: 50%;margin-left: -8%;background-color: white;border: 1px white solid;" class="layui-form-label">行字段：</label><input style="border: 1px white solid;margin-left: 14%;width: 86%;" name="" placeholder="点击选择行字段" class="layui-input" id="LineField" readonly="readonly"></div>'
+						);
+						$('#Configuration').append(
+							'<div "><label  style="height: 50%;margin-left: -8%;background-color: white;border: 1px white solid;margin-top: 38px;" class="layui-form-label">父字段：</label><input style="border: 1px white solid;margin-left: 14%;width: 86%;" name="" placeholder="点击选择父字段" class="layui-input" id="FatherField" readonly="readonly"></div>'
+						);
+						var LineFielData = []; //-----------------------下拉框数据
+						let i = 0;
+						for (let key in res[0]) //下拉框选行 父字段
+						{
+							LineFielData.push({
+								title: key,
+								id: 100 + i,
+							})
+							i++;
+						}
+						dropdown.render({
+							elem: '#LineField',
+							data: LineFielData,
+							style: 'width: 235px;',
+							click: function(obj) {
+								this.elem.val(obj.title);
+								LineFieldVal = obj.title; //行字段点击的值
+							},
+						});
+						dropdown.render({
+							elem: '#FatherField',
+							data: LineFielData,
+							style: 'width: 235px;',
+							click: function(obj) {
+								this.elem.val(obj.title);
+								FatherFieldVal = obj.title;
+							},
+						});
+						//form.render();
+						//-----------------------
+					} else if (PatternVal == "多表") {
+						$("#peizhiLabel").css("line-height", "55px");
+						$('#Configuration').append(
+							'<div "><label  style="height: 50%;margin-left: -8%;background-color: white;border: 1px white solid;" class="layui-form-label">表一：</label><input style="border: 1px white solid;margin-left: 14%;width: 86%;" name="" placeholder="点击选择行字段" class="layui-input" id="demo3" readonly="readonly"></div>'
+						);
+						$('#Configuration').append(
+							'<div "><label  style="height: 50%;margin-left: -8%;background-color: white;border: 1px white solid;margin-top: 8%;" class="layui-form-label">表二：</label><input style="border: 1px white solid;margin-left: 14%;width: 86%;" name="" placeholder="点击选择父字段" class="layui-input" id="demo4" readonly="readonly"></div>'
+						);
+						var dropdown3 = []
+						for (let i = 0; i < SQLData.length; i++) {
+							dropdown3.push({
+								"title": SQLData[i].sql,
+								"id": 100 + i
+							})
+						}
+						var dropdown4 = []
+						for (let i = 0; i < SQLData2.length; i++) {
+							dropdown4.push({
+								"title": SQLData2[i].sql,
+								"id": 100 + i
+							})
+						}
+						dropdown.render({
+							elem: '#demo3',
+							data: dropdown3,
+							click: function(obj) {
+								this.elem.val(obj.title);
+								dropdown3Val = obj.title;
+							},
+							style: 'width: 235px;'
+						});
+						dropdown.render({
+							elem: '#demo4',
+							data: dropdown4,
+							click: function(obj) {
+								this.elem.val(obj.title);
+								dropdown4Val = obj.title;
+							},
+							style: 'width: 235px;'
+						});
+					} else if (PatternVal == "行转列") {
+						$('#Configuration').append(
+							'<input id="Configuration" lay-filter="Configuration" type="radio" name=Configuration value="行转列11" title="行转列11">'
+						);
+						$('#Configuration').append(
+							'<input id="Configuration" lay-filter="Configuration" type="radio" name=Configuration value="行转列22" title="行转列22">'
+						);
+					} else if (PatternVal == "列转行") {
+						$('#Configuration').append(
+							'<input id="Configuration" lay-filter="Configuration" type="radio" name=Configuration value="列转行11" title="列转行11">'
+						);
+						$('#Configuration').append(
+							'<input id="Configuration" lay-filter="Configuration" type="radio" name=Configuration value="列转行22" title="列转行22">'
+						);
+					}
+					var form = layui.form;
+					form.render();
+				});
+				// form.on('radio(NotCreate)', function(data) { //列表配置单选框点击事件，获取点击的单选框的值
+				// 	console.log(data.elem);
+				// 	$(this).checked = false
+				// 	if (data.elem.checked == true) {
+				// 		console.log("11");
+				// 		$(this)[0].checked = false
+				// 		console.log($(this)[0].checked);
+
+
+				// 	}
+				// 	//form.render("radio");
+				// });
+
+
+				//数据展示
+				form.on('submit(formPattern)', function() { //导入模式下一步按钮
+					// if (PatternVal == "列表") {
+					// 	console.log("111");
+					// }
+					step.next('#stepForm');
+					return false;
+				});
+
+				form.on('radio(Excel)', function(data) { //穿梭框Excel单选框点击事件，获取点击的单选框的值
+					ExcelVal = data.value;
+					Excelchecked = data.elem.checked;
+					if (SQLchecked == true && Excelchecked == true) { //左右单选框选择后按钮高亮能点击
+						$("#btnRight").addClass("btn-cursor");
+					} else {
+						$('#btnRight').removeAttr("class", "btn-cursor");
+					}
+				});
+				form.on('radio(SQL)', function(data) { //穿梭框SQL单选框点击事件，获取点击的单选框的值
+					SQLVal = data.value;
+					SQLchecked = data.elem.checked;
+					if (SQLchecked == true && Excelchecked == true) { //左右单选框选择后按钮高亮能点击
+						$("#btnRight").addClass("btn-cursor");
+					} else {
+						$('#btnRight').removeAttr("class", "btn-cursor");
+					}
+				});
+
+				var NotImport = []; //存放ecxel未导入的列
+				form.on('submit(formImport)', function(data) { //选择列的下一步按钮
+					$(".layui-border-box").empty();
+					NotImport = [];
+					//--------------------------------------------------------------------------------数据展示所需的数据，再根据导入模式进行展示↓
+					for (let i = 0; i < ExcelData.length; i++) { //获取excel没导入的字段
+						if (ExcelData[i].disabled == "0") {
+							NotImport.push(ExcelData[i].title)
+						}
+					}
+					//数组转字符串进行赋值  			dataShowData=res 这里普通赋值把内存地址赋过去了（不知道为什么
+					dataShowData = JSON.parse(JSON.stringify(res)); //把excel的所有信息赋值给dataShowData
+					for (let i = 0; i < dataShowData.length; i++) { //删除excel未导入的字段
+						for (var item in dataShowData[i]) {
+							for (let j = 0; j < NotImport.length; j++) {
+								if (item == NotImport[j]) {
+									delete dataShowData[i][item];
+								}
+							}
+						}
+					} //---------------------------------------------------------------------------------数据展示所需的数据，再根据导入模式进行展示↑
+					layer.open({
+						title: '提示',
+						content: '还有' + NotImport + '未导入，确认下一步吗？',
+						btn: ['确定', '取消'],
+						btn1: function(index) {
+							layer.close(index);
+							if (PatternVal == "列表") {
+								for (let key in dataShowData[0]) //数据展示的表头
+								{
+									cols.push({
+										"field": key,
+										"title": key,
+										"sort": true,
+										"align": 'center',
+									})
+								}
+								table.render({
+									elem: '#datashow',
+									data: dataShowData,
+									cols: [cols],
+									//cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+									even: true,
+									page: true, //是否显示分页
+									limits: [5, 10, 20, 30], //每页显示多少条的下拉选项
+									limit: 5 //每页默认显示的数量
+								});
+
+								cols = [];
+							}
+
+							if (PatternVal == "树") { //----------------导入模式为列表
+								layui.use(['table', 'layer', "tableTree"], function() {
+									var table = layui.table,
+										$ = layui.$,
+										tableTree = layui.tableTree,
+										layer = layui.layer
+
+										,
+										treeTable = tableTree.render({
+											elem: '#datashow',
+											id: 'tableTree',
+											url: 'module/json/data.json',
+											height: 350 //'full-360'
+												,
+											size: 'sm',
+											toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+												,
+											defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+												title: '提示',
+												layEvent: 'LAYTABLE_TIPS',
+												icon: 'layui-icon-tips'
+											}],
+											page: true,
+											treeConfig: { //表格树所需配置
+												showField: 'treeName' //表格树显示的字段
+													,
+												treeid: 'id' //treeid所对应字段的值在表格数据中必须是唯一的，且不能为空。
+													,
+												treepid: 'pid' //父级id字段名称
+													,
+												iconClass: 'layui-icon-right' //小图标class样式 窗口图标 layui-icon-layer
+													,
+												showToolbar: true //展示工具栏 false不展示 true展示
+											},
+											cols: [
+												[{
+													type: 'checkbox'
+												}, {
+													field: 'treeName',
+													title: '名称',
+													width: 300
+												}, {
+													field: 'id',
+													title: 'id',
+													sort: true,
+													event: 'id',
+													config: {
+														type: 'input'
+													},
+													width: 100
+												}, {
+													field: 'sort',
+													title: '排序',
+													event: 'sort',
+													width: 70,
+													config: {
+														type: 'input'
+													}
+												}, {
+													field: 'url',
+													title: '路径',
+													event: 'url',
+													config: {
+														type: 'input'
+													},
+													width: 150
+												}, {
+													field: 'permissionId ',
+													width: 150,
+													title: '权限标识',
+													event: 'permissionId',
+													config: {
+														type: 'input'
+													}
+												}, {
+													field: 'createDate',
+													title: '创建时间',
+													event: 'date',
+													width: 130,
+													config: {
+														type: 'date',
+														dateType: 'date'
+													}
+												}, {
+													field: 'type',
+													title: '类型',
+													event: 'type',
+													config: {
+														type: 'select',
+														data: [{
+															name: 1,
+															value: '菜单'
+														}, {
+															name: 2,
+															value: '按钮'
+														}]
+													}
+												}]
+											],
+											done: function() {
+												treeTable.closeAllTreeNodes();
+												treeTable.openTreeNode(1)
+											}
+										}); //----------table = layui.table
+
+
+									/**
+									 *表格的增删改都会回调此方法
+									 * 与table.on(tool(lay-filter))用法一致。
+									 **/
+									tableTree.on('tool(tableEvent)', function(obj) {
+										var field = obj.field; //单元格字段
+										var value = obj.value; //修改后的值
+										var data = obj.data; //当前行数据
+										var event = obj.event; //当前单元格事件属性值
+										//event为del为删除 add则新增 edit则修改 async则为异步请求数据。
+										//这个三个值固定死了，切莫定义与之三个重复的event。
+										if (event !== 'del' && event !== 'add' && event !== 'type' && event !== 'async') {
+											var update = {};
+											update[field] = value;
+											obj.update(update);
+											console.log(obj)
+										}
+										if (event === 'type') {
+											obj.update({
+												type: value.value
+											});
+										}
+										if (event === 'del') {
+											obj.del();
+										}
+										if (event === 'add') { //点击操作栏加号图标时触发
+											//异步、同步都可以使用
+											//obj.add(arr)生成表格树,arr参数为数组，数组中元素的treeid字段值重复则被过滤掉
+											obj.add([]) //参数不传或为空数组时 => 新增空行
+										}
+										if (event === 'async') { //点击方向箭头小图标时触发
+											//可ajax异步请求后台数据,回调obj.async(arr)生成表格树,arr参数为数组
+											//数组中元素的treeid字段值重复则被过滤掉
+											obj.async([{
+												"id": 'abc',
+												"treeName": 'abc',
+												"permissionId ": 'abc',
+												"sort": '3333',
+												createDate: '2020-02-02',
+												type: '1'
+											}]);
+										}
+										if (event === 'id') {
+											$(this).parents('tr').attr('tree-id', value);
+										}
+									});
+
+									/**
+									 *监听复选框选中状态
+									 **/
+									tableTree.on('checkbox(tableEvent)', function(obj) {
+										console.log(obj.checked); //当前是否选中状态
+										console.log(obj.data); //选中行的相关数据
+										console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
+										console.log(obj.data);
+									});
+									var isAsc = true;
+									table.on('toolbar(tableEvent)', function(obj) {
+										var id = $(this).attr("id");
+										if (id === "btn1") {
+											//data可以为空，为空则创建空行，否则按照data数据生成行
+											treeTable.addTopTreeNode(); //新增最上级节点
+										} else if (id === 'btn2') {
+											console.log(treeTable.getCheckedTreeNodeData()) //获取选中行的树状数据
+										} else if (id === 'btn3') {
+											console.log(treeTable.getTableTreeData()) //获取表格树所有数据
+										} else if (id === 'btn4') {
+											treeTable.closeTreeNode('6'); // 根据tr或者树id关闭相对应树节点
+										} else if (id === 'btn5') {
+											treeTable.openTreeNode(6); // 根据tr或者树id展开相对应树节点
+										} else if (id === 'btn6') {
+											treeTable.closeAllTreeNodes(); //关闭所有树节点
+										} else if (id === 'btn7') {
+											treeTable.openAllTreeNodes(); //展开所有树节点
+										} else if (id === 'btn8') {
+											console.log(treeTable.getTreeOptions()); //获取表格配置
+										} else if (id === 'btn9') {
+											treeTable.reload(); //表格树进行reload
+										} else if (id === 'btn10') {
+											treeTable.delTreeNode('19'); //根据tr元素或者节点id删除节点及相关叶子节点
+										} else if (id === 'btn11') {
+											treeTable.clearSearch(); //重置搜索
+										} else if (id === 'btn12') {
+											//传了数据进去进行刷新，那么会把原来的数据给删除了，
+											//然后把传进去的数据进行更新进去
+											treeTable.refresh();
+										} else if (id === "btn13") {
+											treeTable.sortByTreeNode(28, 'sort', isAsc); //指定节点或节点id排序
+											isAsc = !isAsc;
+										}
+									});
+
+									/**
+									 * 整个表格树排序，与layui进行了整合。
+									 */
+									table.on('sort(tableEvent)', function(obj) {
+										treeTable.sort({
+											field: obj.field,
+											desc: obj.type === 'desc'
+										})
+									});
+
+									$('#aassss').on('change', function() {
+										treeTable.keywordSearch(this.value); //关键词搜索树
+									});
+
+								});
+							} //--------导入模式为树结束括号（PatternVal == "树
+
+
+
+
+							dataShowData = [];
+							step.next('#stepForm');
+							return false;
+						} //layer提示结束括号
+					}); //layer提示结束括号
+				}); //选择列的下一步按钮
+
+
+
+
+
+			}) //原页面模板的js结束括号
+		</script>
+	</body>
+</html>
